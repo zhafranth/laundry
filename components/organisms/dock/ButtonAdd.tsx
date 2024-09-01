@@ -25,7 +25,13 @@ const ButtonAdd = () => {
 
   return (
     <>
-      <Button isIconOnly radius="full" color="primary" onPress={handleAdd}>
+      <Button
+        isIconOnly
+        radius="full"
+        color="primary"
+        onPress={handleAdd}
+        size="md"
+      >
         <FaPlus />
       </Button>
       {showModal === "service" && <ModalService toggle={handleCloseModal} />}

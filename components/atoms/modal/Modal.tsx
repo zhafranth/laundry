@@ -34,6 +34,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <ModalNextUI
       {...restProps}
+      placement="center"
       isDismissable={false}
       isKeyboardDismissDisabled={true}
     >

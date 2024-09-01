@@ -26,8 +26,8 @@ const Dock = () => {
   }
 
   return (
-    <div className="fixed bottom-6 w-[738px]">
-      <div className="flex items-center w-8/12 mx-auto justify-center gap-x-2 border-[1px] bg-slate-50 border-slate-300 rounded-3xl px-4 py-2">
+    <div className="fixed bottom-6 w-[96vw] md:w-[900px]">
+      <div className="flex items-center w-10/12 md:w-7/12 mx-auto justify-center gap-x-2 border-[1px] bg-slate-50 border-slate-300 rounded-3xl px-4 py-2">
         <ButtonAdd />
         {MENUS?.map(({ key, icon }, index) => {
           if (key === "divider") {

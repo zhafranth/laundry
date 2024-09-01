@@ -28,6 +28,13 @@ export const actionGetServices = async (params?: Params) => {
           contains: search as string,
         },
       },
+      include: {
+        _count: {
+          select: {
+            transaction: true,
+          },
+        },
+      },
       take: +limit,
       skip: +limit * (+page - 1),
     });

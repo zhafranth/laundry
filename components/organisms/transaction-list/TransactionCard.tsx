@@ -24,7 +24,7 @@ const TransactionCard = ({
   };
   return (
     <div
-      className={`flex gap-x-6  items-center rounded-md p-3 ${
+      className={`flex gap-x-4 items-center rounded-md p-3 ${
         COLOR_TYPE[isOld as keyof typeof COLOR_TYPE]
       }`}
     >
@@ -44,7 +44,7 @@ const TransactionCard = ({
         <p className="font-bold text-slate-700">{point_lipat}</p>
       </LabelValue>
       <LabelValue label="Berat">{berat} Kg</LabelValue>
-      <LabelValue label="layanan">{namaLayanan}</LabelValue>
+      {/* <LabelValue label="layanan">{namaLayanan}</LabelValue> */}
       <ActionTransaction data={data} />
     </div>
   );

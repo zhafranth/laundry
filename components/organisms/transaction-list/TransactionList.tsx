@@ -158,6 +158,10 @@ const TransactionList = () => {
                   >
                     {item.status_pembayaran ? "Lunas" : "Belum Lunas"}
                   </Chip>
+                  <div className="w-1 h-1 rounded-full bg-slate-500"></div>
+                  <p className="text-xs font-semibold">
+                    {item.layanan?.nama || "-"}
+                  </p>
                 </div>
               }
               title={

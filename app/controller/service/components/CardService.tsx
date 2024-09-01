@@ -8,7 +8,8 @@ import { FaBasketShopping } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
 
 const CardService = ({ data }: { data?: Service }) => {
-  const { nama, harga, type_point } = data ?? {};
+  const { nama, harga, type_point, _count } =
+    (data as Service & { _count: { transaction: number } }) ?? {};
   return (
     <div className="bg-blue-50 px-4 py-5 flex items-center rounded-lg mb-4 border-2 border-blue-400">
       <div className="flex-1">
@@ -24,7 +25,7 @@ const CardService = ({ data }: { data?: Service }) => {
             <div className="w-5 h-5 rounded-md bg-blue-500 text-white flex justify-center items-center">
               <FaBasketShopping size={12} />
             </div>
-            0 Total Transaksi
+            {_count?.transaction || 0} Total Transaksi
           </div>
           {type_point !== "kosong" && (
             <div className="flex gap-x-2 text-sm items-center text-slate-400 capitalize">

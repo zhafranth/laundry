@@ -20,14 +20,13 @@ import { formatToCurrency } from "@/utils/format";
 import { calculatePrice } from "../utils/calculatePrice";
 import { useTransaction } from "@/actions/hooks/transaksi";
 import { useRouter } from "next/navigation";
-import { STATUS_ENUM } from "../constant/status";
 
 const FormTransaksi = () => {
   const [search, setSearch] = useState<string | undefined>();
   const [customer, setCustomer] = useState<Customer | undefined>();
   const [service, setService] = useState<Service | undefined>();
 
-  const { mutateCreateTransaction } = useTransaction();
+  const { mutateCreateTransaction, pendingCreate } = useTransaction();
 
   const dateNow = new Date().toISOString().split("T")[0];
 
@@ -37,10 +36,11 @@ const FormTransaksi = () => {
     onSubmit: async ({ value }) => {
       const { serviceId, customerId, berat, ...restValue } = value;
       const payload = {
+        ...restValue,
         serviceId: Number(serviceId),
         customerId: Number(customerId),
         berat: Number(berat),
-        ...restValue,
+        status: "antrian",
       };
       mutateCreateTransaction(payload, {
         onSuccess: () => router.back(),
@@ -128,7 +128,7 @@ const FormTransaksi = () => {
             }}
           </form.Field>
 
-          <div className="flex gap-x-4">
+          <div className="flex gap-x-4 ">
             <div className="w-2/4">
               <p className="flex  items-center gap-x-2 text-xs text-slate-500 mb-1">
                 <IoLocationSharp />
@@ -160,11 +160,11 @@ const FormTransaksi = () => {
           </div>
           <AddCustomers />
         </div>
-        <div className="bg-slate-100 border border-slate-300 w-full py-4 px-6 rounded-lg my-10 flex gap-x-6">
+        <div className="flex flex-col gap-y-6 mt-6">
           <form.Field name="status_pembayaran" defaultValue={false}>
             {(field) => {
               return (
-                <div className="w-1/4">
+                <div className="flex-1">
                   <p className="text-sm mb-2 text-slate-600 font-semibold">
                     Status Pembayaran
                   </p>
@@ -187,57 +187,24 @@ const FormTransaksi = () => {
               );
             }}
           </form.Field>
-
-          <div className="flex-1">
-            <form.Field name="status" defaultValue="antrian">
-              {(field) => {
-                return (
-                  <Radio
-                    radioGroup={{
-                      orientation: "horizontal",
-                      label: "Status",
-                      size: "sm",
-                      color: "primary",
-                      classNames: {
-                        label: "text-sm text-slate-600 font-semibold",
-                      },
-                      name: field.name,
-                      value: field.state.value as string,
-                      onValueChange: field.handleChange,
-                    }}
-                    radio={{
-                      classNames: {
-                        label: "text-slate-500",
-                      },
-                    }}
-                    options={STATUS_ENUM}
-                  />
-                );
-              }}
-            </form.Field>
-          </div>
-          <div className="flex-1">
-            <form.Field name="tanggal_estimasi" defaultValue={dateNow}>
-              {(field) => {
-                return (
-                  <DatePicker
-                    name={field.name}
-                    value={parseDate(field.state.value as string)}
-                    onChange={(e) => field.handleChange(e as unknown as string)}
-                    label={"Estimasi Selesai"}
-                    labelPlacement="outside"
-                    size="sm"
-                    dateInputClassNames={{
-                      label: "text-sm text-slate-600 font-semibold",
-                      inputWrapper: "bg-white group-hover:bg-slate-50",
-                    }}
-                  />
-                );
-              }}
-            </form.Field>
-          </div>
-        </div>
-        <div className="flex flex-col gap-y-6">
+          <form.Field name="tanggal_estimasi" defaultValue={dateNow}>
+            {(field) => {
+              return (
+                <DatePicker
+                  name={field.name}
+                  value={parseDate(field.state.value as string)}
+                  onChange={(e) => field.handleChange(e as unknown as string)}
+                  label={"Estimasi Selesai"}
+                  labelPlacement="outside"
+                  size="sm"
+                  dateInputClassNames={{
+                    label: "text-sm text-slate-600 font-semibold",
+                    inputWrapper: "bg-white group-hover:bg-slate-50",
+                  }}
+                />
+              );
+            }}
+          </form.Field>
           <form.Field
             name="serviceId"
             validators={{
@@ -338,6 +305,7 @@ const FormTransaksi = () => {
             className="rounded-md"
             startContent={<IoMdAdd />}
             type="submit"
+            isLoading={pendingCreate}
           >
             Simpan
           </Button>
