@@ -21,7 +21,7 @@ const ModalEditTransaction = ({
 }) => {
   const { mutate } = useUpdateStatusTransaction();
   const { tanggal_estimasi, status, status_pembayaran, id } = data ?? {};
-  console.log("dataEdit:", data);
+
   const form = useForm<TransactionUpdateStatusPayload>({
     defaultValues: {
       tanggal_estimasi,
@@ -29,12 +29,19 @@ const ModalEditTransaction = ({
       status_pembayaran,
     },
     onSubmit: async ({ value }) => {
-      mutate({
-        id,
-        data: value,
-      });
+      mutate(
+        {
+          id,
+          data: value,
+        },
+        {
+          onSuccess: toggle,
+        }
+      );
     },
   });
+
+  // console.log("data:", data);
   return (
     <Modal title="Update Transaksi" isOpen onClose={toggle} removeAction>
       <form

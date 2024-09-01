@@ -5,6 +5,7 @@ import {
   AccordionItem,
   Avatar,
   Chip,
+  Spinner,
   Tab,
   Tabs,
 } from "@nextui-org/react";
@@ -73,7 +74,10 @@ const TransactionList = () => {
     },
   };
 
-  const { data = [] } = useGetTransactions({ status: activeTab, search });
+  const { data = [], isFetching } = useGetTransactions({
+    status: activeTab,
+    search,
+  });
 
   return (
     <div className="mb-20">
@@ -92,6 +96,11 @@ const TransactionList = () => {
         </Tabs>
       </div>
       <SearchUser />
+      {data?.length === 0 && isFetching && (
+        <div className="h-[70vh] w-full flex justify-center items-center">
+          <Spinner size="lg" />
+        </div>
+      )}
       <Suspense fallback={<p>Loading...</p>}>
         <Accordion selectionMode="multiple">
           {data.map((item, index) => (

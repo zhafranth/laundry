@@ -1,4 +1,5 @@
 "use client";
+
 import useToggle from "@/utils/hooks/useToggle";
 import { Button } from "@nextui-org/react";
 import React, { useCallback } from "react";
@@ -11,6 +12,7 @@ import { textContent } from "@/utils/message";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 const ActionTransaction = ({ data }: { data: Transaction }) => {
+  console.log("data:", data);
   const { isOpen, toggle } = useToggle();
 
   const handleCopyStruck = useCallback(() => {
@@ -18,6 +20,7 @@ const ActionTransaction = ({ data }: { data: Transaction }) => {
     navigator.clipboard.writeText(message);
     toast.success("Copied");
   }, [data]);
+
   return (
     <>
       <div className="flex items-center gap-x-2 ml-auto">
