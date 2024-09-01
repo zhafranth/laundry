@@ -19,6 +19,7 @@ import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import SearchUser from "@/app/controller/customer/components/SearchUser";
 import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
 import { ColorType } from "@/components/atoms/chips/Chips";
+import Image from "next/image";
 
 dayjs.extend(isSameOrBefore);
 
@@ -74,7 +75,7 @@ const TransactionList = () => {
     },
   };
 
-  const { data = [], isFetching } = useGetTransactions({
+  const { data = [], isLoading } = useGetTransactions({
     status: activeTab,
     search,
   });
@@ -96,9 +97,20 @@ const TransactionList = () => {
         </Tabs>
       </div>
       <SearchUser />
-      {data?.length === 0 && isFetching && (
+      {isLoading && (
         <div className="h-[70vh] w-full flex justify-center items-center">
           <Spinner size="lg" />
+        </div>
+      )}
+      {data.length === 0 && !isLoading && (
+        <div className="h-[70vh] w-full flex flex-col gap-y-2 justify-center items-center">
+          <Image
+            src="/images/empty-folder.png"
+            width={100}
+            height={100}
+            alt="empty-list"
+          />
+          <p className="text-slate-400">Tidak ada transaksi...</p>
         </div>
       )}
       <Suspense fallback={<p>Loading...</p>}>

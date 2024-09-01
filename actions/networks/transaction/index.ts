@@ -2,6 +2,7 @@
 
 import {
   actionCreateTransaction,
+  actionGetTransaction,
   actionGetTransactions,
   actionUpdateStatusTransaction,
 } from "@/actions/actions/transaction";
@@ -11,6 +12,7 @@ import {
   TransactionUpdateStatusPayload,
 } from "@/actions/actions/transaction/Transaction.interface";
 import { ApiResponse, Params } from "@/actions/interface";
+import { Transaction } from "@prisma/client";
 
 export const createTransaction = async (data: TransactionPayload) => {
   const response = await actionCreateTransaction(data);
@@ -21,6 +23,11 @@ export const getTransactions = async (params?: Params) => {
   const response: ApiResponse<ITransaction[]> = await actionGetTransactions(
     params
   );
+  return response.data;
+};
+
+export const getTransaction = async (id?: string) => {
+  const response = await actionGetTransaction(id);
   return response.data;
 };
 

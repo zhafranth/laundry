@@ -6,6 +6,7 @@ import {
 import { Params } from "@/actions/interface";
 import {
   createTransaction,
+  getTransaction,
   getTransactions,
 } from "@/actions/networks/transaction";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -18,6 +19,16 @@ export const useGetTransactions = (
   return useQuery({
     queryKey: ["transactions", params],
     queryFn: () => getTransactions(params),
+    ...options,
+  });
+};
+export const useGetTransaction = (
+  id?: string,
+  options?: { enabled?: boolean }
+) => {
+  return useQuery({
+    queryKey: ["transaction", id],
+    queryFn: () => getTransaction(id),
     ...options,
   });
 };

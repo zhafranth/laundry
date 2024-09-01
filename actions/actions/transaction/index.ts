@@ -134,3 +134,22 @@ export const actionGetTransactions = async (params?: Params) => {
     throw new Error("Failed to fetch transaction");
   }
 };
+
+export const actionGetTransaction = async (id?: string) => {
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    return {
+      status: 200,
+      data: transaction,
+      message: "Success fetch transaction",
+    };
+  } catch (error) {
+    console.log("error:", error);
+    throw new Error("Failed to fetch transaction");
+  }
+};
