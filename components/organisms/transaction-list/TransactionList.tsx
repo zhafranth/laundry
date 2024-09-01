@@ -8,7 +8,7 @@ import {
   Tab,
   Tabs,
 } from "@nextui-org/react";
-import React, { Key, useCallback, useState } from "react";
+import React, { Key, Suspense, useCallback, useState } from "react";
 import { useGetTransactions } from "@/actions/hooks/transaksi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import TransactionCard from "./TransactionCard";
@@ -92,60 +92,64 @@ const TransactionList = () => {
         </Tabs>
       </div>
       <SearchUser />
-      <Accordion selectionMode="multiple">
-        {data.map((item, index) => (
-          <AccordionItem
-            key={`card-${item.id}-${index}`}
-            aria-label={item.customer?.nama}
-            startContent={
-              <Avatar
-                color={COLOR_TYPE[checkIsOLD(item)].avatar as ColorType}
-                radius="lg"
-                name={getAlias(item.customer?.nama as string)}
-                classNames={{
-                  name: "font-semibold text-white",
-                  // base: "bg-blue-400",
-                }}
-              />
-            }
-            classNames={{
-              title: "text-sm font-semibold",
-              base: `${
-                COLOR_TYPE[checkIsOLD(item)].bg as ColorType
-              } rounded-md px-2`,
-            }}
-            subtitle={
-              <div className="flex gap-x-3 items-center">
-                <p className="text-xs">
-                  {dayjs(item.createdAt).format("DD MMM YYYY, HH:mm")}
-                </p>
-                <div className="w-1 h-1 rounded-full bg-slate-500"></div>
-                <p className="text-xs w-[60px]">
-                  {item.harga === 0
-                    ? "GRATIS"
-                    : formatToCurrency(item.harga as number)}
-                </p>
-                <div className="w-1 h-1 rounded-full bg-slate-500"></div>
-                <Chip
-                  variant="flat"
-                  color={item.status_pembayaran ? "success" : "danger"}
-                  size="sm"
+      <Suspense fallback={<p>Loading...</p>}>
+        <Accordion selectionMode="multiple">
+          {data.map((item, index) => (
+            <AccordionItem
+              key={`card-${item.id}-${index}`}
+              aria-label={item.customer?.nama}
+              startContent={
+                <Avatar
+                  color={COLOR_TYPE[checkIsOLD(item)].avatar as ColorType}
+                  radius="lg"
+                  name={getAlias(item.customer?.nama as string)}
                   classNames={{
-                    content: "text-xs",
+                    name: "font-semibold text-white",
+                    // base: "bg-blue-400",
                   }}
-                >
-                  {item.status_pembayaran ? "Lunas" : "Belum Lunas"}
-                </Chip>
-              </div>
-            }
-            title={
-              <p className="font-semibold capitalize">{item.customer?.nama}</p>
-            }
-          >
-            <TransactionCard data={item} isOld={checkIsOLD(item)} />
-          </AccordionItem>
-        ))}
-      </Accordion>
+                />
+              }
+              classNames={{
+                title: "text-sm font-semibold",
+                base: `${
+                  COLOR_TYPE[checkIsOLD(item)].bg as ColorType
+                } rounded-md px-2`,
+              }}
+              subtitle={
+                <div className="flex gap-x-3 items-center">
+                  <p className="text-xs">
+                    {dayjs(item.createdAt).format("DD MMM YYYY, HH:mm")}
+                  </p>
+                  <div className="w-1 h-1 rounded-full bg-slate-500"></div>
+                  <p className="text-xs w-[60px]">
+                    {item.harga === 0
+                      ? "GRATIS"
+                      : formatToCurrency(item.harga as number)}
+                  </p>
+                  <div className="w-1 h-1 rounded-full bg-slate-500"></div>
+                  <Chip
+                    variant="flat"
+                    color={item.status_pembayaran ? "success" : "danger"}
+                    size="sm"
+                    classNames={{
+                      content: "text-xs",
+                    }}
+                  >
+                    {item.status_pembayaran ? "Lunas" : "Belum Lunas"}
+                  </Chip>
+                </div>
+              }
+              title={
+                <p className="font-semibold capitalize">
+                  {item.customer?.nama}
+                </p>
+              }
+            >
+              <TransactionCard data={item} isOld={checkIsOLD(item)} />
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </Suspense>
     </div>
   );
 };
