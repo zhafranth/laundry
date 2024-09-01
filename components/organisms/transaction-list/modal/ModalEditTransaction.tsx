@@ -21,6 +21,7 @@ const ModalEditTransaction = ({
 }) => {
   const { mutate } = useUpdateStatusTransaction();
   const { tanggal_estimasi, status, status_pembayaran, id } = data ?? {};
+  // console.log("data:", data);
 
   const form = useForm<TransactionUpdateStatusPayload>({
     defaultValues: {
