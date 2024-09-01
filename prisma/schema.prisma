@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["omitApi"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id String @id @default(uuid())
+  name String?
+  username String @unique
+  password String 
+  role Role
+  kontak      String?
+  alamat      String?
+  identitas      String?
+  status_pegawai      String?
+  profile_url     String?
+  absensi    Absensi[]  // Relasi ke model Absensi (one-to-many)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Absensi {
+  id          Int        @id @default(autoincrement())
+  userId      String        // Foreign key ke tabel User
+  user        User       @relation(fields: [userId], references: [id])
+  tanggal     DateTime
+  jam_masuk    DateTime
+  jam_keluar   DateTime?
+  status       String?
+  lokasi      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Customer {
+  id Int @id @default(autoincrement())
+  nama String @unique
+  alamat String 
+  no_telp String @unique
+  point_setrika Int @default(0)
+  point_lipat Int @default(0)
+
+  transaction Transaction[]
+}
+
+model Service {
+  id Int @id @default(autoincrement()) 
+  nama String @unique
+  harga Int
+  type_point String?
+
+  transaction Transaction[]
+}
+
+model Transaction {
+  id String @id @default(cuid()) @db.VarChar(8)
+  customerId Int
+  status_pembayaran Boolean?
+  status String
+  tanggal_estimasi String
+  point_setrika Int? @default(0) 
+  point_lipat Int? @default(0)
+
+  berat Int
+  note String?
+  harga Int? @default(0)
+  serviceId Int
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId],references: [id])
+  layanan Service @relation(fields: [serviceId], references: [id])
+}

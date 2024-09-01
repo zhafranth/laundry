@@ -1,0 +1,16 @@
+{
+  "name": "Dashboard Water 7 Laundry",
+  "short_name": "Water 7 Laundry",
+  "description": "Dashboard Water 7 Laundry",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
