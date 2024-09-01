@@ -22,7 +22,7 @@ const ModalEditTransaction = ({
   toggle: () => void;
   data: Transaction;
 }) => {
-  const { mutate } = useUpdateStatusTransaction();
+  const { mutate, isPending } = useUpdateStatusTransaction();
   const { id } = data ?? {};
   const { data: detail, isLoading } = useGetTransaction(id);
 
@@ -165,6 +165,7 @@ const ModalEditTransaction = ({
             className="rounded-md"
             startContent={<IoMdAdd />}
             type="submit"
+            isLoading={isPending}
           >
             Simpan
           </Button>

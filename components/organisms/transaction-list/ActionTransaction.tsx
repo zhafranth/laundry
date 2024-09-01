@@ -9,48 +9,20 @@ import { toast } from "react-toastify";
 import { textContent } from "@/utils/message";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import dynamic from "next/dynamic";
-import { TransactionUpdateStatusPayload } from "@/actions/actions/transaction/Transaction.interface";
-import { useUpdateStatusTransaction } from "@/actions/hooks/transaksi";
 
 import { Button } from "@nextui-org/react";
-import { useForm } from "@tanstack/react-form";
-
 const ModalEditTransaction = dynamic(
   () => import("./modal/ModalEditTransaction")
 );
 
 const ActionTransaction = ({ data }: { data: Transaction }) => {
   const { isOpen, toggle } = useToggle();
-  const { mutate, isPending } = useUpdateStatusTransaction();
-  const { tanggal_estimasi, status, status_pembayaran, id } = data ?? {};
-  // console.log("data:", data);
-
-  const form = useForm<TransactionUpdateStatusPayload>({
-    defaultValues: {
-      tanggal_estimasi,
-      status,
-      status_pembayaran,
-    },
-    onSubmit: async ({ value }) => {
-      mutate(
-        {
-          id,
-          data: value,
-        },
-        {
-          onSuccess: toggle,
-        }
-      );
-    },
-  });
 
   const handleCopyStruck = useCallback(() => {
     const message = textContent(data);
     navigator.clipboard.writeText(message);
     toast.success("Copied");
   }, [data]);
-
-  console.log("data:", data);
 
   return (
     <>
