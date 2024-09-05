@@ -44,7 +44,6 @@ const TransactionCard = ({
         <p className="font-bold text-slate-700">{point_lipat}</p>
       </LabelValue>
       <LabelValue label="Berat">{berat} Kg</LabelValue>
-      {/* <LabelValue label="layanan">{namaLayanan}</LabelValue> */}
       <ActionTransaction data={data} />
     </div>
   );

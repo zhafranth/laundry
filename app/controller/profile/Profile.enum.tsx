@@ -1,4 +1,5 @@
-import { Absensi } from "@prisma/client";
+import { formatToCurrency } from "@/utils/format";
+import { Absensi, Transaction } from "@prisma/client";
 import dayjs from "dayjs";
 
 export const ABSEN_COLUMNS = [
@@ -20,7 +21,15 @@ export const ABSEN_COLUMNS = [
       data.jam_keluar ? dayjs(data.jam_keluar).format("HH:mm:ss") : "-",
   },
   {
-    key: "status",
-    label: "Status",
+    key: "insentif",
+    label: "Insentif",
+    render: (data: Absensi & { transactions: Transaction[] }) =>
+      formatToCurrency(data?.insentif),
+  },
+  {
+    key: "total",
+    label: "Total Transaksi",
+    render: (data: Absensi & { transactions: Transaction[] }) =>
+      data.transactions.length || 0,
   },
 ];

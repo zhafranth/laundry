@@ -17,6 +17,7 @@ const ModalEditTransaction = dynamic(
 
 const ActionTransaction = ({ data }: { data: Transaction }) => {
   const { isOpen, toggle } = useToggle();
+  const { status } = data ?? {};
 
   const handleCopyStruck = useCallback(() => {
     const message = textContent(data);
@@ -37,6 +38,7 @@ const ActionTransaction = ({ data }: { data: Transaction }) => {
           size="sm"
           radius="full"
           onPress={toggle}
+          isDisabled={status === "diambil"}
         >
           <TbEdit size={16} />
         </Button>
@@ -47,7 +49,7 @@ const ActionTransaction = ({ data }: { data: Transaction }) => {
           size="sm"
           radius="full"
           onPress={handleCopyStruck}
-          isDisabled={data?.status === "diambil"}
+          isDisabled={status === "diambil"}
         >
           <FiCopy size={16} />
         </Button>

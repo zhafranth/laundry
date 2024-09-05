@@ -24,6 +24,9 @@ export const actionGetAbsen = async (
           lte: endDate,
         },
       },
+      include: {
+        transactions: true,
+      },
       orderBy: {
         createdAt: "desc",
       },

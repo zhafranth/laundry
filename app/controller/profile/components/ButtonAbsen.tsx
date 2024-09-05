@@ -14,7 +14,7 @@ const ButtonAbsen = ({
   type: "masuk" | "keluar";
   id: string;
 }) => {
-  const { mutate } = useAbsen();
+  const { mutate, isPending } = useAbsen();
   const handleAbsen = useCallback(() => {
     mutate({
       type,
@@ -67,13 +67,11 @@ const ButtonAbsen = ({
           setIsWithinLocation(distance <= thresholdDistance);
         },
         (error) => {
-          toast.error("Error getting location");
           console.error("Error getting location:", error);
         }
       );
     } else {
       toast.error("Geolocation not available in this browser.");
-      console.error("Geolocation not available in this browser.");
     }
   }, []);
 
@@ -104,6 +102,7 @@ const ButtonAbsen = ({
       radius="full"
       endContent={icon}
       isDisabled={!isWithinLocation}
+      isLoading={isPending}
     >
       Absen {label}
     </Button>

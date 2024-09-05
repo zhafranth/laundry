@@ -7,6 +7,9 @@ import {
 } from "./Transaction.interface";
 import { generateUniqueID } from "@/utils/format";
 import { Params } from "@/actions/interface";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/config/authOptions";
+import dayjs from "dayjs";
 
 export const actionCreateTransaction = async (data: TransactionPayload) => {
   try {
@@ -67,6 +70,59 @@ export const actionUpdateStatusTransaction = async (
   data: TransactionUpdateStatusPayload
 ) => {
   try {
+    const { status, status_pembayaran } = data;
+    const transaction = await prisma.transaction.findUnique({
+      where: { id },
+    });
+
+    if (
+      (status === "selesai" || status === "diambil") &&
+      !!status_pembayaran &&
+      !transaction?.status_pembayaran
+    ) {
+      const session = await getServerSession(authOptions);
+      const today = dayjs().startOf("day");
+
+      const absensi = await prisma.absensi.findFirst({
+        where: {
+          userId: session?.user.id,
+          tanggal: {
+            gte: today.toDate(),
+            lt: today.add(1, "day").toDate(),
+          },
+          jam_keluar: null, // Pastikan jam_keluar belum diisi
+        },
+      });
+      if (absensi) {
+        const service = await prisma.service.findFirst({
+          where: {
+            transaction: {
+              some: {
+                id,
+              },
+            },
+          },
+        });
+
+        await prisma.absensi.update({
+          where: {
+            id: absensi.id,
+          },
+          data: {
+            transactions: {
+              connect: { id }, // Menghubungkan transaksi yang sudah ada
+            },
+            insentif:
+              (absensi.insentif || 0) +
+              (service?.harga || 0) * (transaction?.berat || 0) * 0.07, // Count Insentif
+          },
+          include: {
+            transactions: true, // Untuk memastikan transaksi yang ditambahkan dimuat dalam hasil
+          },
+        });
+      }
+    }
+
     await prisma.transaction.update({
       where: {
         id,

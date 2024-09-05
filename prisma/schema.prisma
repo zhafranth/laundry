@@ -43,9 +43,11 @@ model Absensi {
   jam_masuk    DateTime
   jam_keluar   DateTime?
   status       String?
+  insentif    Int @default(0)
   lokasi      String
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  transactions Transaction[]
 }
 
 model Customer {
@@ -81,10 +83,12 @@ model Transaction {
   note String?
   harga Int? @default(0)
   serviceId Int
+  absensiId Int? 
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   customer Customer @relation(fields: [customerId],references: [id])
   layanan Service @relation(fields: [serviceId], references: [id])
+  absensi            Absensi?   @relation(fields: [absensiId], references: [id])
 }

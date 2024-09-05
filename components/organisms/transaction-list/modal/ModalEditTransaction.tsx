@@ -129,7 +129,11 @@ const ModalEditTransaction = ({
                         label: "text-slate-500",
                       },
                     }}
-                    options={STATUS_ENUM}
+                    options={
+                      status === "selesai"
+                        ? STATUS_ENUM.filter((item) => item.value !== "antrian")
+                        : STATUS_ENUM
+                    }
                   />
                 );
               }}
