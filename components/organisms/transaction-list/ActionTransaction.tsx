@@ -7,13 +7,13 @@ import { TbEdit } from "react-icons/tb";
 import { Transaction } from "@prisma/client";
 import { toast } from "react-toastify";
 import { textContent } from "@/utils/message";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import dynamic from "next/dynamic";
 
 import { Button } from "@nextui-org/react";
 const ModalEditTransaction = dynamic(
   () => import("./modal/ModalEditTransaction")
 );
+const ButtonPrint = dynamic(() => import("./ButtonPrint"));
 
 const ActionTransaction = ({ data }: { data: Transaction }) => {
   const { isOpen, toggle } = useToggle();
@@ -53,16 +53,7 @@ const ActionTransaction = ({ data }: { data: Transaction }) => {
         >
           <FiCopy size={16} />
         </Button>
-        <Button
-          variant="flat"
-          size="sm"
-          color="primary"
-          radius="full"
-          endContent={<MdKeyboardArrowRight />}
-          className="border-2 border-blue-500"
-        >
-          Cetak
-        </Button>
+        <ButtonPrint />
       </div>
       {isOpen && <ModalEditTransaction data={data} toggle={toggle} />}
     </>
