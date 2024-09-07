@@ -21,6 +21,8 @@ const ButtonAdd = () => {
   const handleAdd = useCallback(() => {
     if (pathname === "/controller/transaksi") router.push(`${pathname}/create`);
     if (pathname === "/controller/service") handleShowModal("service");
+    if (pathname === "/controller/performance")
+      router.push(`${pathname}/create-outcome`);
   }, [handleShowModal, pathname, router]);
 
   return (

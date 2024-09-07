@@ -22,14 +22,17 @@ export const MENUS = [
   {
     key: "performance",
     icon: <FaRegChartBar />,
+    onlyAdmin: true,
   },
   {
     key: "service",
     icon: <PiMoneyWavy />,
+    onlyAdmin: true,
   },
   {
     key: "dashboard",
     icon: <PiNotepadDuotone />,
+    onlyAdmin: true,
   },
   {
     key: "divider",

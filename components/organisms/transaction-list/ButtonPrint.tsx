@@ -3,7 +3,6 @@ import { useReactToPrint } from "react-to-print";
 
 import { Button } from "@nextui-org/react";
 import dayjs from "dayjs";
-import { Transaction } from "@prisma/client";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
 import { formatToCurrency } from "@/utils/format";
@@ -30,12 +29,12 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
 
     return (
       <div style={{ padding: "0 34px" }}>
-        <p style={{ fontSize: 38, textAlign: "center" }}>
+        <p style={{ fontSize: 18, textAlign: "center" }}>
           ====================
         </p>
         <p
           style={{
-            fontSize: 58,
+            fontSize: 18,
             fontWeight: "bold",
             textAlign: "center",
           }}
@@ -44,20 +43,21 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         </p>
         <p
           style={{
-            fontSize: 34,
+            fontSize: 14,
             textAlign: "center",
           }}
         >
           Gading Nias Residence Tower <br /> Emerald SHU 2A
         </p>
-        <p style={{ fontSize: 38, textAlign: "center" }}>
+        <p style={{ fontSize: 18, textAlign: "center" }}>
           ====================
         </p>
-        <div style={{ textAlign: "center", fontWeight: "500", fontSize: 38 }}>
+        <div style={{ textAlign: "center", fontWeight: "500", fontSize: 18 }}>
           <p
             style={{
-              fontSize: 128,
+              fontSize: 68,
               fontWeight: "800",
+              lineHeight: 1,
               textTransform: "capitalize",
             }}
           >
@@ -69,7 +69,7 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         <p
           style={{
             marginTop: "12px",
-            fontSize: 38,
+            fontSize: 18,
           }}
         >
           Point Setrika :{" "}
@@ -78,40 +78,40 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         <p
           style={{
             marginTop: "12px",
-            fontSize: 38,
+            fontSize: 18,
           }}
         >
           Point Lipat : <span style={{ fontWeight: "600" }}>{point_lipat}</span>
         </p>
-        <p style={{ fontSize: 38 }}>
+        <p style={{ fontSize: 18 }}>
           Tanggal Terima :{" "}
           <span style={{ fontWeight: "500" }}>
             {dayjs(createdAt || "-").format("MM/DD/YYYY HH:mm") || "-"}
           </span>
         </p>
 
-        <p style={{ fontSize: 38, textAlign: "center", margin: "12px 0" }}>
+        <p style={{ fontSize: 18, textAlign: "center", margin: "12px 0" }}>
           ==================
         </p>
         <div>
-          <p style={{ fontSize: 38, fontWeight: "500" }}>Detail Pesanan </p>
+          <p style={{ fontSize: 18, fontWeight: "500" }}>Detail Pesanan </p>
           <p
             style={{
-              fontSize: 38,
+              fontSize: 18,
             }}
           >
             Layanan : <span style={{ fontWeight: "600" }}>{nama_layanan}</span>
           </p>
           <p
             style={{
-              fontSize: 38,
+              fontSize: 18,
             }}
           >
             Berat : <span style={{ fontWeight: "600" }}>{berat} Kg</span>
           </p>
           <p
             style={{
-              fontSize: 38,
+              fontSize: 18,
             }}
           >
             Total :{" "}
@@ -119,12 +119,12 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
               {formatToCurrency(harga || 0)}
             </span>
           </p>
-          <p style={{ fontSize: 38, textAlign: "center", margin: "12px 0" }}>
+          <p style={{ fontSize: 18, textAlign: "center", margin: "12px 0" }}>
             --------------------
           </p>
           <p
             style={{
-              fontSize: 38,
+              fontSize: 18,
             }}
           >
             Status Pembayaran :{" "}
@@ -139,7 +139,7 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
             <>
               <p
                 style={{
-                  fontSize: 38,
+                  fontSize: 18,
                   fontWeight: "600",
                 }}
               >
@@ -147,7 +147,7 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
               </p>
               <p
                 style={{
-                  fontSize: 38,
+                  fontSize: 18,
                 }}
               >
                 {note}

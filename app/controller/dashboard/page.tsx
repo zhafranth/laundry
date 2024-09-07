@@ -1,6 +1,13 @@
+"use client";
+
 import { formatToCurrency } from "@/utils/format";
 import React from "react";
 import { MdOutlineArrowOutward } from "react-icons/md";
+import IncomeChart from "./_components/IncomeChart";
+import dynamic from "next/dynamic";
+import { DateRangePicker } from "@nextui-org/react";
+
+const TableService = dynamic(() => import("./_components/TableService"));
 
 const Dashboard = () => {
   const info = [
@@ -17,7 +24,14 @@ const Dashboard = () => {
   ];
 
   return (
-    <>
+    <main className="mb-20">
+      <DateRangePicker
+        label="Tanggal Transaksi"
+        classNames={{
+          inputWrapper: "bg-white",
+        }}
+        className="mb-4"
+      />
       <div className="flex gap-x-6">
         {info.map((item, index) => (
           <div
@@ -40,7 +54,9 @@ const Dashboard = () => {
           </div>
         ))}
       </div>
-    </>
+      <IncomeChart />
+      <TableService />
+    </main>
   );
 };
 

@@ -3,6 +3,7 @@
 import { UserPayload } from "@/actions/actions/user/User.interface";
 import { useUser } from "@/actions/hooks/user";
 import Upload from "@/components/atoms/upload";
+import { styleInput } from "@/utils/style";
 import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { Role, User } from "@prisma/client";
 import { useForm } from "@tanstack/react-form";
@@ -60,13 +61,6 @@ const FormUser: React.FC<IFormUser> = ({ data }) => {
       });
     },
   });
-
-  const styleInput = {
-    inputWrapper:
-      "bg-slate-50 group-hover:bg-slate-100 rounded-lg border-slate-300 border-1 shadow-none ",
-    input: "placeholder:text-slate-400",
-    label: "!text-slate-600",
-  };
 
   return (
     <>
