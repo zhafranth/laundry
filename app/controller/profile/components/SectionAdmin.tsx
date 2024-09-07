@@ -11,6 +11,7 @@ import { useGetUsers } from "@/actions/hooks/user";
 import CardUser from "./CardUser";
 import { FaPlus } from "react-icons/fa";
 import Link from "next/link";
+import { formatToCurrency } from "@/utils/format";
 
 const SectionAdmin = () => {
   const currentMonth = dayjs().month() + 1; // dayjs().month() dimulai dari 0 untuk Januari, jadi tambahkan 1
@@ -35,6 +36,10 @@ const SectionAdmin = () => {
     month,
   });
 
+  const totalInsentif = useMemo(
+    () => listAbsen?.reduce((a, b) => a + (b?.insentif || 0), 0),
+    [listAbsen]
+  );
   return (
     <div className="mt-4">
       <div className="my-4">
@@ -101,6 +106,10 @@ const SectionAdmin = () => {
             <div>
               <p className="text-sm text-slate-400">Total Kehadiran</p>
               <p>{listAbsen.length}</p>
+            </div>
+            <div>
+              <p className="text-sm text-slate-400">Total Insentif</p>
+              <p>{formatToCurrency(totalInsentif)}</p>
             </div>
           </div>
         }

@@ -53,7 +53,7 @@ const ActionTransaction = ({ data }: { data: Transaction }) => {
         >
           <FiCopy size={16} />
         </Button>
-        <ButtonPrint />
+        <ButtonPrint data={data} />
       </div>
       {isOpen && <ModalEditTransaction data={data} toggle={toggle} />}
     </>

@@ -1,6 +1,7 @@
 import { formatToCurrency } from "@/utils/format";
 import { Absensi, Transaction } from "@prisma/client";
 import dayjs from "dayjs";
+import ColumnAbsen from "./components/ColumnAbsen";
 
 export const ABSEN_COLUMNS = [
   {
@@ -11,14 +12,16 @@ export const ABSEN_COLUMNS = [
   {
     key: "jam_masuk",
     label: "Jam Masuk",
-    render: (data: Absensi) =>
-      data.jam_masuk ? dayjs(data.jam_masuk).format("HH:mm:ss") : "-",
+    render: (data: Absensi) => (
+      <ColumnAbsen jam={data?.jam_masuk} type="masuk" />
+    ),
   },
   {
     key: "jam_keluar",
     label: "Jam Keluar",
-    render: (data: Absensi) =>
-      data.jam_keluar ? dayjs(data.jam_keluar).format("HH:mm:ss") : "-",
+    render: (data: Absensi) => (
+      <ColumnAbsen jam={data?.jam_keluar} type="keluar" />
+    ),
   },
   {
     key: "insentif",
