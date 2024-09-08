@@ -92,3 +92,24 @@ model Transaction {
   layanan Service @relation(fields: [serviceId], references: [id])
   absensi            Absensi?   @relation(fields: [absensiId], references: [id])
 }
+
+model KategoriPengeluaran {
+  id Int @id @default(autoincrement()) 
+  nama String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pengeluaran Pengeluaran[]
+}
+
+model Pengeluaran {
+  id Int @id @default(autoincrement()) 
+  harga Int
+  note String?
+  kategoriId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  
+  kategori KategoriPengeluaran @relation(fields: [kategoriId], references: [id])
+}

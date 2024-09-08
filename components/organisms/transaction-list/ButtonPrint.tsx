@@ -29,12 +29,12 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
 
     return (
       <div style={{ padding: "0 34px" }}>
-        <p style={{ fontSize: 18, textAlign: "center" }}>
-          ====================
+        <p style={{ fontSize: 28, textAlign: "center" }}>
+          ==================================================
         </p>
         <p
           style={{
-            fontSize: 18,
+            fontSize: 28,
             fontWeight: "bold",
             textAlign: "center",
           }}
@@ -43,16 +43,16 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         </p>
         <p
           style={{
-            fontSize: 14,
+            fontSize: 20,
             textAlign: "center",
           }}
         >
           Gading Nias Residence Tower <br /> Emerald SHU 2A
         </p>
-        <p style={{ fontSize: 18, textAlign: "center" }}>
-          ====================
+        <p style={{ fontSize: 28, textAlign: "center" }}>
+          ==================================================
         </p>
-        <div style={{ textAlign: "center", fontWeight: "500", fontSize: 18 }}>
+        <div style={{ textAlign: "center", fontWeight: "500", fontSize: 28 }}>
           <p
             style={{
               fontSize: 68,
@@ -69,7 +69,7 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         <p
           style={{
             marginTop: "12px",
-            fontSize: 18,
+            fontSize: 28,
           }}
         >
           Point Setrika :{" "}
@@ -78,40 +78,40 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
         <p
           style={{
             marginTop: "12px",
-            fontSize: 18,
+            fontSize: 28,
           }}
         >
           Point Lipat : <span style={{ fontWeight: "600" }}>{point_lipat}</span>
         </p>
-        <p style={{ fontSize: 18 }}>
+        <p style={{ fontSize: 28 }}>
           Tanggal Terima :{" "}
           <span style={{ fontWeight: "500" }}>
             {dayjs(createdAt || "-").format("MM/DD/YYYY HH:mm") || "-"}
           </span>
         </p>
 
-        <p style={{ fontSize: 18, textAlign: "center", margin: "12px 0" }}>
+        <p style={{ fontSize: 28, textAlign: "center", margin: "12px 0" }}>
           ==================
         </p>
         <div>
-          <p style={{ fontSize: 18, fontWeight: "500" }}>Detail Pesanan </p>
+          <p style={{ fontSize: 28, fontWeight: "500" }}>Detail Pesanan </p>
           <p
             style={{
-              fontSize: 18,
+              fontSize: 28,
             }}
           >
             Layanan : <span style={{ fontWeight: "600" }}>{nama_layanan}</span>
           </p>
           <p
             style={{
-              fontSize: 18,
+              fontSize: 28,
             }}
           >
             Berat : <span style={{ fontWeight: "600" }}>{berat} Kg</span>
           </p>
           <p
             style={{
-              fontSize: 18,
+              fontSize: 28,
             }}
           >
             Total :{" "}
@@ -119,12 +119,12 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
               {formatToCurrency(harga || 0)}
             </span>
           </p>
-          <p style={{ fontSize: 18, textAlign: "center", margin: "12px 0" }}>
-            --------------------
+          <p style={{ fontSize: 28, textAlign: "center", margin: "12px 0" }}>
+            ----------------------------------------
           </p>
           <p
             style={{
-              fontSize: 18,
+              fontSize: 28,
             }}
           >
             Status Pembayaran :{" "}
@@ -132,14 +132,14 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
               {status_pembayaran ? "Lunas" : "Belum Lunas"}
             </span>
           </p>
-          <p style={{ margin: "12px 0", fontSize: 44, textAlign: "center" }}>
-            =================
+          <p style={{ margin: "12px 0", fontSize: 28, textAlign: "center" }}>
+            ==================================================================
           </p>
           {note && (
             <>
               <p
                 style={{
-                  fontSize: 18,
+                  fontSize: 28,
                   fontWeight: "600",
                 }}
               >
@@ -147,7 +147,7 @@ export class ComponentToPrint extends React.PureComponent<ComponentToPrintProps>
               </p>
               <p
                 style={{
-                  fontSize: 18,
+                  fontSize: 28,
                 }}
               >
                 {note}
