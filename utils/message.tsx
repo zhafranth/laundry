@@ -10,18 +10,20 @@ export const textContent = (data: ITransaction) => {
     status_pembayaran,
     point_lipat,
     point_setrika,
+    customer,
   } = data;
   const { nama: namaLayanan } = layanan ?? {};
+  const { nama, alamat } = customer ?? {};
   if (status === "selesai") {
     return `    
 👕👚 Laundry Anda Telah Selesai! 👕👚
 -------
-Kami ingin memberitahu Anda bahwa laundry Anda sudah bisa diambil atau diantarkan (infokan waktu untuk pengantaran)
+*Halo ${nama}*, kami ingin memberitahu Anda bahwa laundry Anda sudah bisa diambil atau diantarkan (infokan waktu untuk pengantaran)
 Berikut detail laundry anda :
 -------
 Layanan : 
 • ${namaLayanan}
-Total : ${formatToCurrency(harga || 0)}
+Total : *${formatToCurrency(harga || 0)}*
 Status Laundry : Selesai
 Status Bayar : ${status_pembayaran ? "Lunas" : "Belum Lunas"}
 Point Setrika : ${point_setrika}
@@ -35,11 +37,14 @@ Terima kasih atas kepercayaan Anda pada Water 7 Laundry!
   }
 
   return `
-Berikut detail laundry dan poin stamp Anda :
+Water 7 Laundry
+Berikut detail laundry dan point stamp Anda :
+Nama : *${nama}*
+Alamat : ${alamat}
       
 Layanan : 
 • ${namaLayanan}
-Total : ${formatToCurrency(harga || 0)}
+Total : *${formatToCurrency(harga || 0)}*
 Status Laundry : ${capitalize(status)}
 Status Bayar : ${status_pembayaran ? "Lunas" : "Belum Lunas"}
 Point Setrika : ${point_setrika}
