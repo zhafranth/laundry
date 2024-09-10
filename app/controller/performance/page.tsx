@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { Button, Select, SelectItem } from "@nextui-org/react";
+import React, { useState } from "react";
+import { Select, SelectItem } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { MONTH_OPTIONS, YEAR_OPTIONS } from "@/constant/date";
 import OutcomeList from "./_components/OutcomeList";
@@ -12,6 +12,7 @@ const Performance = () => {
 
   const [month, setMonth] = useState<number>(currentMonth);
   const [year, setYear] = useState<number>(currentYear);
+
   return (
     <>
       <div className="flex gap-x-4 items-center mb-5">
@@ -42,7 +43,7 @@ const Performance = () => {
           ))}
         </Select>
       </div>
-      <OutcomeList />
+      <OutcomeList month={month} year={year} />
     </>
   );
 };

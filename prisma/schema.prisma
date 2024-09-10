@@ -105,6 +105,7 @@ model KategoriPengeluaran {
 model Pengeluaran {
   id Int @id @default(autoincrement()) 
   harga Int
+  jumlah Int
   note String?
   kategoriId Int
   createdAt DateTime @default(now())

@@ -1,17 +1,23 @@
+import { useKategoriPengeluaran } from "@/actions/hooks/pengeluaran";
 import Modal from "@/components/atoms/modal";
 import { styleInput } from "@/utils/style";
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { useForm } from "@tanstack/react-form";
 import React from "react";
 
 const ModalKategori = ({ closeModal }: { closeModal: () => void }) => {
+  const { mutateCreateKategoriPengeluaran } = useKategoriPengeluaran();
+
   const form = useForm({
     onSubmit: async ({ value }) => {
-      console.log("vale:", value);
+      mutateCreateKategoriPengeluaran(value as { nama: string }, {
+        onSuccess: closeModal,
+      });
     },
   });
+
   return (
-    <Modal title="Tambah Kategori" onClose={closeModal} isOpen>
+    <Modal title="Tambah Kategori" onClose={closeModal} isOpen removeAction>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -19,7 +25,13 @@ const ModalKategori = ({ closeModal }: { closeModal: () => void }) => {
           form.handleSubmit();
         }}
       >
-        <form.Field name="kategori">
+        <form.Field
+          name="nama"
+          validators={{
+            onChange: ({ value }) =>
+              !value ? "This field is required" : undefined,
+          }}
+        >
           {(field) => {
             return (
               <Input
@@ -37,6 +49,14 @@ const ModalKategori = ({ closeModal }: { closeModal: () => void }) => {
             );
           }}
         </form.Field>
+        <div className="flex justify-end gap-x-2 my-4">
+          <Button color="danger" variant="bordered" onClick={closeModal}>
+            Batal
+          </Button>
+          <Button type="submit" color="primary">
+            Simpan
+          </Button>
+        </div>
       </form>
     </Modal>
   );

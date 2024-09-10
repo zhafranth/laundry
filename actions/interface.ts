@@ -3,6 +3,8 @@ export interface Params {
   page?: number;
   status?: string;
   limit?: number;
+  month?: number;
+  year?: number;
 }
 
 export interface ApiResponse<T> {

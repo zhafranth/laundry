@@ -1,12 +1,13 @@
 import React from "react";
 import OutcomeCard from "./OutcomeCard";
+import { useGetPengeluaran } from "@/actions/hooks/pengeluaran";
 
-const OutcomeList = () => {
-  const data = [1, 2, 3];
+const OutcomeList = ({ month, year }: { month: number; year: number }) => {
+  const { data: listPengeluaran = [] } = useGetPengeluaran({ month, year });
   return (
     <div className="flex flex-col gap-6">
-      {data.map((item, index) => (
-        <OutcomeCard key={`outcome-${index}`} />
+      {listPengeluaran.map((item, index) => (
+        <OutcomeCard key={`outcome-${index}`} data={item} />
       ))}
     </div>
   );
