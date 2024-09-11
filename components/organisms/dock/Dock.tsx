@@ -31,8 +31,8 @@ const Dock = () => {
   }
 
   return (
-    <div className="fixed bottom-6 w-[96vw] md:w-[900px]">
-      <div className="flex items-center w-10/12 md:w-7/12 mx-auto justify-center gap-x-2 border-[1px] bg-slate-50 border-slate-300 rounded-3xl px-4 py-2">
+    <div className="fixed bottom-6 w-[100vw] sm:w-[96vw] md:w-[900px]">
+      <div className="flex items-center w-11/12 sm:w-10/12 md:w-7/12 sm:mx-auto justify-center gap-x-0 sm:gap-x-2 border-[1px] bg-slate-50 border-slate-300 rounded-3xl px-4 py-2">
         <ButtonAdd />
         {MENUS?.map(({ key, icon, onlyAdmin }, index) => {
           if (key === "divider") {
@@ -49,14 +49,13 @@ const Dock = () => {
               isIconOnly
               radius="full"
               variant="light"
-              size="lg"
               key={`${key}-${index}`}
               onPress={() => handleLink(key)}
-              className={
+              className={`!size-8 sm:!size-12 text-xs sm:text-medium ${
                 pathname === `/controller/${key}`
                   ? "text-blue-600"
                   : "text-slate-600"
-              }
+              }`}
               isDisabled={role === "USER" && onlyAdmin}
             >
               {icon}
@@ -68,7 +67,7 @@ const Dock = () => {
           isIconOnly
           radius="full"
           variant="light"
-          size="lg"
+          className="!size-8 sm:!size-12 text-xs sm:text-medium"
           onClick={() => signOut()}
         >
           <FiLogOut />

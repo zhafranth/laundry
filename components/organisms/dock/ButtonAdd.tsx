@@ -32,7 +32,7 @@ const ButtonAdd = () => {
         radius="full"
         color="primary"
         onPress={handleAdd}
-        size="md"
+        className="text-xs sm:text-medium"
       >
         <FaPlus />
       </Button>
