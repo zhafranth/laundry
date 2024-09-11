@@ -2,37 +2,38 @@
 
 import { Button, Input } from "@nextui-org/react";
 import { useForm } from "@tanstack/react-form";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { useAuth } from "./hooks";
 
 const Auth = () => {
+  const { mutate, isPending } = useAuth();
   const router = useRouter();
 
   const form = useForm<{ username: string; password: string }>({
     onSubmit: async ({ value }) => {
-      const response = await signIn("credentials", {
-        ...value,
-        redirect: false,
+      mutate(value, {
+        onSuccess: (response) => {
+          if (response?.error) {
+            const key = response?.error.includes("Username")
+              ? "username"
+              : "password";
+            form.setFieldMeta(key, (prevMeta) => ({
+              ...prevMeta,
+              errorMap: {
+                onSubmit: response?.error,
+              },
+            }));
+          } else {
+            router.push("/controller/transaksi");
+          }
+        },
       });
-      if (response?.error) {
-        const key = response?.error.includes("Username")
-          ? "username"
-          : "password";
-        form.setFieldMeta(key, (prevMeta) => ({
-          ...prevMeta,
-          errorMap: {
-            onSubmit: response?.error,
-          },
-        }));
-      } else {
-        router.push("/controller/transaksi");
-      }
     },
   });
   return (
     <div className="flex h-screen justify-center items-center">
-      <div className="p-8 rounded-3xl bg-white border border-blue-300 w-1/3">
+      <div className="p-8 rounded-3xl bg-white border border-blue-300 w-5/6 md:w-1/3">
         <h1 className="mb-8 font-semibold text-2xl">Masuk</h1>
         <form
           onSubmit={(e) => {
@@ -97,7 +98,7 @@ const Auth = () => {
               );
             }}
           </form.Field>
-          <Button color="primary" type="submit">
+          <Button color="primary" type="submit" isLoading={isPending}>
             Masuk
           </Button>
         </form>
