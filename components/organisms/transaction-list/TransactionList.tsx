@@ -124,6 +124,7 @@ const TransactionList = () => {
                   color={COLOR_TYPE[checkIsOLD(item)].avatar as ColorType}
                   radius="lg"
                   name={getAlias(item.customer?.nama as string)}
+                  className="hidden sm:block"
                   classNames={{
                     name: "font-semibold text-white",
                     // base: "bg-blue-400",
@@ -137,12 +138,10 @@ const TransactionList = () => {
                 } rounded-md px-2`,
               }}
               subtitle={
-                <div className="flex gap-x-3 items-center">
-                  <p className="text-xs">
-                    {dayjs(item.createdAt).format("DD MMM YYYY, HH:mm")}
-                  </p>
+                <div className="flex flex-wrap sm:flex-nowrap gap-x-2 sm:gap-x-3 items-center text-[10px] sm:text-xs">
+                  <p>{dayjs(item.createdAt).format("DD MMM YYYY, HH:mm")}</p>
                   <div className="w-1 h-1 rounded-full bg-slate-500"></div>
-                  <p className="text-xs w-[60px]">
+                  <p className="w-[65px]">
                     {item.harga === 0
                       ? "GRATIS"
                       : formatToCurrency(item.harga as number)}
@@ -153,15 +152,13 @@ const TransactionList = () => {
                     color={item.status_pembayaran ? "success" : "danger"}
                     size="sm"
                     classNames={{
-                      content: "text-xs",
+                      content: "",
                     }}
                   >
                     {item.status_pembayaran ? "Lunas" : "Belum Lunas"}
                   </Chip>
                   <div className="w-1 h-1 rounded-full bg-slate-500"></div>
-                  <p className="text-xs font-semibold">
-                    {item.layanan?.nama || "-"}
-                  </p>
+                  <p className="font-semibold">{item.layanan?.nama || "-"}</p>
                 </div>
               }
               title={

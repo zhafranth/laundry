@@ -24,7 +24,7 @@ const TransactionCard = ({
   };
   return (
     <div
-      className={`flex gap-x-4 items-center rounded-md p-3 ${
+      className={`flex flex-wrap sm:flex-nowrap gap-4 items-center rounded-md p-3 ${
         COLOR_TYPE[isOld as keyof typeof COLOR_TYPE]
       }`}
     >
