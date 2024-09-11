@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import React, { useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { useGetOptionsKategori } from "../_hooks";
 
 const BackButton = dynamic(
   () => import("@/components/organisms/back/BackButton")
@@ -21,20 +22,10 @@ const ModalKategori = dynamic(() => import("./ModalKategori"));
 
 const FormOutcome = () => {
   const { isOpen, toggle } = useToggle();
-  const { data: listKategori = [] } = useGetKategoriPengeluaran();
   const { mutateCreatePengeluaran } = usePengeluaran();
+  const kategoriOptions = useGetOptionsKategori();
 
   const router = useRouter();
-
-  const kategoriOptions = useMemo(
-    () =>
-      listKategori?.map(({ nama, id }) => ({
-        label: nama,
-        value: id,
-      })),
-    [listKategori]
-  );
-
   const form = useForm<PengeluaranPayload>({
     onSubmit: async ({ value }) => {
       const { harga, jumlah, kategoriId } = value;
@@ -94,7 +85,7 @@ const FormOutcome = () => {
                 errorMessage={field.state.meta.errors}
                 items={kategoriOptions}
               >
-                {kategoriOptions.map((item) => (
+                {kategoriOptions?.map((item) => (
                   <SelectItem key={item.value}>{item.label}</SelectItem>
                 ))}
               </Select>

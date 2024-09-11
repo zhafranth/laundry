@@ -9,7 +9,7 @@ import {
 } from "@/actions/actions/pengeluaran/Pengeluaran.interface";
 import { Params } from "@/actions/interface";
 import apiRequest, { ApiResponse } from "@/config/axios";
-import { KategoriPengeluaran, Pengeluaran } from "@prisma/client";
+import { KategoriPengeluaran } from "@prisma/client";
 
 export const createKategoriPengeluaran = async (data: { nama: string }) => {
   const response = await actionCreateKategoriPengeluaran(data);

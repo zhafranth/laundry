@@ -86,7 +86,7 @@ export const actionGetProfile = async () => {
 
     return { user };
   } catch (error) {
-    throw new Error("Failed to update podcast");
+    throw new Error("Failed to get profile");
   }
 };
 
