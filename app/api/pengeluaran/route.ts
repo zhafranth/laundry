@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url); // Langsung akses searchParams dari request.nextUrl
   const year = Number(searchParams.get("year") || 1);
