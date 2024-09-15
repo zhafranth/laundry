@@ -15,8 +15,7 @@ const TransactionCard = ({
   data: ITransaction;
   isOld: string;
 }) => {
-  const { point_lipat, point_setrika, berat = 0, layanan, status } = data ?? {};
-  const { nama: namaLayanan = "-" } = layanan ?? {};
+  const { point_lipat, point_setrika, berat = 0, status, id } = data ?? {};
   const COLOR_TYPE = {
     off_antrian: "bg-red-50",
     off_selesai: "bg-orange-50",
@@ -28,6 +27,7 @@ const TransactionCard = ({
         COLOR_TYPE[isOld as keyof typeof COLOR_TYPE]
       }`}
     >
+      <LabelValue label="Order ID">#{id}</LabelValue>
       <LabelValue label="status">
         <Chips
           variant="flat"

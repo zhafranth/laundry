@@ -25,7 +25,7 @@ const ColumnAbsen = ({
     <>
       {checkAbsen() ? (
         <p className="px-2 py-1 inline-block rounded-md bg-warning-100 text-warning-600">
-          {dayjs(new Date(jam)).format("HH:mm:ss")}
+          {dayjs(jam).format("HH:mm:ss")}
         </p>
       ) : (
         dayjs(jam).format("HH:mm:ss")

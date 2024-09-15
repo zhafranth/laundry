@@ -16,12 +16,15 @@ import TransactionCard from "./TransactionCard";
 import { formatToCurrency, getAlias } from "@/utils/format";
 import dayjs from "dayjs";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import "dayjs/locale/id";
 import SearchUser from "@/app/controller/customer/components/SearchUser";
 import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
 import { ColorType } from "@/components/atoms/chips/Chips";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 dayjs.extend(isSameOrBefore);
+dayjs.locale("id");
 
 const TransactionList = () => {
   const searchParams = useSearchParams();
@@ -41,6 +44,16 @@ const TransactionList = () => {
     },
     [pathname, replace, searchParams]
   );
+
+  const handleCopyID = useCallback((data: ITransaction) => {
+    const { customer, id, createdAt, harga } = data ?? {};
+    const { nama } = customer ?? {};
+    const message = `${nama} - ${dayjs(createdAt).format(
+      "dddd, DD MMM YYYY HH:mm"
+    )} - ${formatToCurrency(harga || 0)} - #${id}`;
+    navigator.clipboard.writeText(message);
+    toast.success("Copied");
+  }, []);
 
   const checkIsOLD = useCallback((data: ITransaction) => {
     const { createdAt, status } = data;
@@ -127,8 +140,8 @@ const TransactionList = () => {
                   className="hidden sm:block"
                   classNames={{
                     name: "font-semibold text-white",
-                    // base: "bg-blue-400",
                   }}
+                  onClick={() => handleCopyID(item)}
                 />
               }
               classNames={{
@@ -139,7 +152,9 @@ const TransactionList = () => {
               }}
               subtitle={
                 <div className="flex flex-wrap sm:flex-nowrap gap-x-2 sm:gap-x-3 items-center text-[10px] sm:text-xs">
-                  <p>{dayjs(item.createdAt).format("DD MMM YYYY, HH:mm")}</p>
+                  <p>
+                    {dayjs(item.createdAt).format("dddd, DD MMM YYYY HH:mm")}
+                  </p>
                   <div className="w-1 h-1 rounded-full bg-slate-500"></div>
                   <p className="w-[65px]">
                     {item.harga === 0

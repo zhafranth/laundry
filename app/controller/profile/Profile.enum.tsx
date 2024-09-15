@@ -2,12 +2,16 @@ import { formatToCurrency } from "@/utils/format";
 import { Absensi, Transaction } from "@prisma/client";
 import dayjs from "dayjs";
 import ColumnAbsen from "./components/ColumnAbsen";
+import "dayjs/locale/id";
+
+dayjs.locale("id");
 
 export const ABSEN_COLUMNS = [
   {
     key: "tanggal",
     label: "Tanggal",
-    render: (data: Absensi) => dayjs(data.tanggal).format("DD MMM YYYY"),
+    render: (data: Absensi) =>
+      dayjs(data.tanggal).format("dddd, DD MMM YYYY HH:mm"),
   },
   {
     key: "jam_masuk",
