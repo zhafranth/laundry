@@ -1,10 +1,16 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
-import { Button, Select, SelectItem } from "@nextui-org/react";
+import React, { useState } from "react";
+import { Select, SelectItem } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { MONTH_OPTIONS, YEAR_OPTIONS } from "@/constant/date";
+import { useGetIncomeTransaction } from "@/actions/hooks/dashboard";
+import { Income } from "@/actions/networks/dashboard/interface";
+import "dayjs/locale/id";
+import { formatToCurrency } from "@/utils/format";
+
+dayjs.locale("id");
 
 const Table = dynamic(() => import("@/components/atoms/table"));
 
@@ -14,6 +20,8 @@ const TableService = () => {
 
   const [month, setMonth] = useState<number>(currentMonth);
   const [year, setYear] = useState<number>(currentYear);
+  const { data = [], isLoading } = useGetIncomeTransaction({ month, year });
+
   return (
     <>
       <div className="flex gap-x-4 mb-4">
@@ -50,19 +58,23 @@ const TableService = () => {
         columns={[
           {
             key: "service_name",
-            label: "Layanan",
+            label: "Tanggal",
+            render: (data: Income) =>
+              dayjs(data.tanggal).format("dddd, DD MMM YYYY"),
           },
           {
-            key: "jumlah",
+            key: "total_transaksi",
+            label: "Total Transaksi",
+            render: (data: Income) =>
+              formatToCurrency(data?.total_transaksi || 0),
+          },
+          {
+            key: "jumlah_transaksi",
             label: "Jumlah Transaksi",
           },
-          {
-            key: "total",
-            label: "Total Transaksi",
-          },
         ]}
-        isLoading={false}
-        data={[]}
+        isLoading={isLoading}
+        data={data}
       />
     </>
   );

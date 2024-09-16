@@ -16,7 +16,7 @@ import { BsDatabaseAdd } from "react-icons/bs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type dataType = {
-  id: string | number;
+  id?: string | number;
   [x: string]: any;
 };
 

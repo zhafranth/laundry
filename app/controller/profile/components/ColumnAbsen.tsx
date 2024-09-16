@@ -1,4 +1,3 @@
-import { Absensi } from "@prisma/client";
 import dayjs from "dayjs";
 import React, { useCallback } from "react";
 

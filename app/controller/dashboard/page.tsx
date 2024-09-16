@@ -25,14 +25,14 @@ const Dashboard = () => {
 
   return (
     <main className="mb-20">
-      <DateRangePicker
+      {/* <DateRangePicker
         label="Tanggal Transaksi"
         classNames={{
           inputWrapper: "bg-white",
         }}
         className="mb-4"
-      />
-      <div className="flex gap-x-6">
+      /> */}
+      {/* <div className="flex gap-x-6">
         {info.map((item, index) => (
           <div
             className="rounded-xl p-6 flex-1 bg-[#e5effee3] border border-blue-200 flex items-center gap-x-4"
@@ -53,8 +53,8 @@ const Dashboard = () => {
             </div>
           </div>
         ))}
-      </div>
-      <IncomeChart />
+      </div> */}
+      {/* <IncomeChart /> */}
       <TableService />
     </main>
   );
