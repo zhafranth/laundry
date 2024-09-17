@@ -13,9 +13,6 @@ export interface ApiResponse<T> {
 
 const apiRequest = axios.create({
   baseURL: "/api",
-  headers: {
-    "Cache-Control": "no-cache",
-  },
 });
 
 apiRequest.interceptors.response.use(

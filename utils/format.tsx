@@ -1,3 +1,6 @@
+import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
+import dayjs from "dayjs";
+
 const INTL_NUMBER_FORMAT = "id-ID";
 const MAXIMUM_FRACTION_DIGITS = 6;
 const MINIMUM_FRACTION_DIGITS = 0;
@@ -191,4 +194,22 @@ export const generateYear = (): YearOption[] => {
     label: String(val),
     value: String(val),
   }));
+};
+
+export const checkOLDTransaction = (data: ITransaction) => {
+  const { createdAt, status } = data;
+  const givenDate = createdAt;
+  const currentDate = dayjs();
+
+  // Hitung selisih hari
+  const diffDays = currentDate.diff(givenDate, "day");
+
+  if (status === "antrian" && diffDays > 3) {
+    return "off_antrian";
+  }
+  if (status === "selesai" && diffDays > 5) {
+    return "off_selesai";
+  }
+
+  return "passed";
 };

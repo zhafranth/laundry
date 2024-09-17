@@ -13,17 +13,20 @@ import React, { Key, Suspense, useCallback, useState } from "react";
 import { useGetTransactions } from "@/actions/hooks/transaksi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import TransactionCard from "./TransactionCard";
-import { formatToCurrency, getAlias } from "@/utils/format";
+import {
+  checkOLDTransaction,
+  formatToCurrency,
+  getAlias,
+} from "@/utils/format";
 import dayjs from "dayjs";
-import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import "dayjs/locale/id";
 import SearchUser from "@/app/controller/customer/components/SearchUser";
 import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
 import { ColorType } from "@/components/atoms/chips/Chips";
 import Image from "next/image";
 import { toast } from "react-toastify";
+import { COLOR_TYPE } from "@/constant/color";
 
-dayjs.extend(isSameOrBefore);
 dayjs.locale("id");
 
 const TransactionList = () => {
@@ -54,39 +57,6 @@ const TransactionList = () => {
     navigator.clipboard.writeText(message);
     toast.success("Copied");
   }, []);
-
-  const checkIsOLD = useCallback((data: ITransaction) => {
-    const { createdAt, status } = data;
-    const givenDate = createdAt;
-    const currentDate = dayjs();
-
-    // Hitung selisih hari
-    const diffDays = currentDate.diff(givenDate, "day");
-
-    if (status === "antrian" && diffDays > 3) {
-      return "off_antrian";
-    }
-    if (status === "selesai" && diffDays > 5) {
-      return "off_selesai";
-    }
-
-    return "passed";
-  }, []);
-
-  const COLOR_TYPE = {
-    off_antrian: {
-      bg: "bg-red-100",
-      avatar: "danger",
-    },
-    off_selesai: {
-      bg: "bg-orange-100",
-      avatar: "warning",
-    },
-    passed: {
-      bg: "",
-      avatar: "primary",
-    },
-  };
 
   const { data = [], isLoading } = useGetTransactions({
     status: activeTab,
@@ -134,7 +104,9 @@ const TransactionList = () => {
               aria-label={item.customer?.nama}
               startContent={
                 <Avatar
-                  color={COLOR_TYPE[checkIsOLD(item)].avatar as ColorType}
+                  color={
+                    COLOR_TYPE[checkOLDTransaction(item)].avatar as ColorType
+                  }
                   radius="lg"
                   name={getAlias(item.customer?.nama as string)}
                   className="hidden sm:block"
@@ -147,7 +119,7 @@ const TransactionList = () => {
               classNames={{
                 title: "text-sm font-semibold",
                 base: `${
-                  COLOR_TYPE[checkIsOLD(item)].bg as ColorType
+                  COLOR_TYPE[checkOLDTransaction(item)].bg as ColorType
                 } rounded-md px-2`,
               }}
               subtitle={
@@ -182,7 +154,7 @@ const TransactionList = () => {
                 </p>
               }
             >
-              <TransactionCard data={item} isOld={checkIsOLD(item)} />
+              <TransactionCard data={item} isOld={checkOLDTransaction(item)} />
             </AccordionItem>
           ))}
         </Accordion>

@@ -2,6 +2,7 @@ import {
   getAbsenUser,
   postAbsenKeluar,
   postAbsenMasuk,
+  getAbsenDetail,
 } from "@/actions/networks/absensi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -40,5 +41,13 @@ export const useAbsen = () => {
     onError: ({ message }) => {
       toast.error(message);
     },
+  });
+};
+
+export const useGetAbsensiDetail = (id: string) => {
+  return useQuery({
+    queryKey: ["absen", "detail", id],
+    queryFn: () => getAbsenDetail(id),
+    enabled: !!id,
   });
 };

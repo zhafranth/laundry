@@ -3,6 +3,8 @@ import { Absensi, Transaction } from "@prisma/client";
 import dayjs from "dayjs";
 import ColumnAbsen from "./components/ColumnAbsen";
 import "dayjs/locale/id";
+import Link from "next/link";
+import { Button } from "@nextui-org/react";
 
 dayjs.locale("id");
 
@@ -38,5 +40,16 @@ export const ABSEN_COLUMNS = [
     label: "Total Transaksi",
     render: (data: Absensi & { transactions: Transaction[] }) =>
       data.transactions.length || 0,
+  },
+  {
+    key: "action",
+    label: "Detail",
+    render: (data: Absensi & { transactions: Transaction[] }) => (
+      <Link href={`/controller/profile/${data?.id}`}>
+        <Button size="sm" color="primary" variant="flat">
+          Detail
+        </Button>
+      </Link>
+    ),
   },
 ];
