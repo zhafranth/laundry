@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Select, SelectItem } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { MONTH_OPTIONS, YEAR_OPTIONS } from "@/constant/date";
@@ -10,7 +10,13 @@ import { Transaction } from "@/actions/networks/dashboard/interface";
 import "dayjs/locale/id";
 import { formatToCurrency } from "@/utils/format";
 import { MdOutlineArrowOutward, MdScale } from "react-icons/md";
-import { FaChartLine, FaCheck, FaDollarSign } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaArrowUp,
+  FaChartLine,
+  FaCheck,
+  FaDollarSign,
+} from "react-icons/fa";
 import { IoScaleSharp } from "react-icons/io5";
 
 dayjs.locale("id");
@@ -74,11 +80,25 @@ const TableService = () => {
       {
         key: "average",
         label: "Rata-rata/Hari",
-        value: total_transaction / transaction?.length || 0,
+        value: (total_transaction / transaction?.length || 0).toFixed(2),
         icon: <FaChartLine size={14} />,
       },
     ];
   }, [data]);
+
+  const renderTotalTransaksi = useCallback((value: number) => {
+    const meetTarget = value >= 200000;
+    return (
+      <p
+        className={`${
+          meetTarget ? "text-green-500" : "text-red-500"
+        } flex items-center gap-x-2`}
+      >
+        {meetTarget ? <FaArrowUp /> : <FaArrowDown />}
+        {formatToCurrency(value)}
+      </p>
+    );
+  }, []);
 
   return (
     <>
@@ -141,7 +161,7 @@ const TableService = () => {
             key: "total_transaksi",
             label: "Total Transaksi",
             render: (data: Transaction) =>
-              formatToCurrency(data?.total_transaksi || 0),
+              renderTotalTransaksi(data?.total_transaksi || 0),
           },
           {
             key: "jumlah_transaksi",
