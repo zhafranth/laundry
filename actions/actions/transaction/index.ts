@@ -142,7 +142,18 @@ export const actionUpdateStatusTransaction = async (
 
 export const actionGetTransactions = async (params?: Params) => {
   try {
-    const { limit = 20, page = 1, search, status } = params ?? {};
+    const {
+      limit = 20,
+      page = 1,
+      search,
+      status,
+      startDate,
+      endDate,
+    } = params ?? {};
+
+    const start = dayjs(startDate).startOf("day");
+    const end = dayjs(endDate).endOf("day");
+
     const transactions = await prisma.transaction.findMany({
       where: {
         status: status as string,
@@ -150,6 +161,10 @@ export const actionGetTransactions = async (params?: Params) => {
           nama: {
             contains: search as string,
           },
+        },
+        createdAt: {
+          gte: startDate && start.toDate(),
+          lte: endDate && end.toDate(),
         },
       },
       orderBy: {
@@ -170,6 +185,10 @@ export const actionGetTransactions = async (params?: Params) => {
           nama: {
             contains: search as string,
           },
+        },
+        createdAt: {
+          gte: startDate ? dayjs(startDate).toDate() : undefined,
+          lte: endDate ? dayjs(endDate).toDate() : undefined,
         },
       },
       orderBy: {

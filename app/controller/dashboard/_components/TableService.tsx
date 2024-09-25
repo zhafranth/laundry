@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import React, { useCallback, useMemo, useState } from "react";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Button, Select, SelectItem } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { MONTH_OPTIONS, YEAR_OPTIONS } from "@/constant/date";
 import { useGetIncomeTransaction } from "@/actions/hooks/dashboard";
@@ -18,6 +18,7 @@ import {
   FaDollarSign,
 } from "react-icons/fa";
 import { IoScaleSharp } from "react-icons/io5";
+import Link from "next/link";
 
 dayjs.locale("id");
 
@@ -166,6 +167,28 @@ const TableService = () => {
           {
             key: "jumlah_transaksi",
             label: "Jumlah Transaksi",
+          },
+          {
+            key: "berat",
+            label: "Berat",
+            render: ({ berat }: Transaction) => (
+              <p className="text-sm">{berat} Kg</p>
+            ),
+          },
+          {
+            key: "action",
+            label: "Action",
+            render: ({ tanggal }: Transaction) => (
+              <Link
+                href={`/controller/dashboard/${dayjs(tanggal).format(
+                  "YYYY-MM-DD"
+                )}`}
+              >
+                <Button color="primary" variant="flat" size="sm">
+                  Detail
+                </Button>
+              </Link>
+            ),
           },
         ]}
         isLoading={isLoading}

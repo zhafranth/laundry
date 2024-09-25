@@ -22,7 +22,8 @@ export const GET = async (request: Request) => {
       YEAR(createdAt) as tahun, 
     DATE(createdAt) as tanggal, 
       CAST(COUNT(id) AS FLOAT) as jumlah_transaksi, 
-      CAST(SUM(harga) as FLOAT) as total_transaksi 
+      CAST(SUM(harga) as FLOAT) as total_transaksi,
+      CAST(SUM(berat) as FLOAT) as berat
     FROM Transaction 
     WHERE MONTH(createdAt) = ${month} 
       AND YEAR(createdAt) = ${year} 

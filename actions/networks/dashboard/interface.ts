@@ -5,6 +5,7 @@ export interface Transaction {
   tanggal: string;
   jumlah_transaksi: number;
   total_transaksi: number;
+  berat: number;
 }
 
 export interface DataTransaction {

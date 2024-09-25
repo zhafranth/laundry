@@ -5,6 +5,8 @@ export interface Params {
   limit?: number;
   month?: number;
   year?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ApiResponse<T> {

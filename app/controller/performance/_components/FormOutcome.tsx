@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useGetOptionsKategori } from "../_hooks";
-import { getKategoriPengeluaran } from "@/actions/networks/pengeluaran";
 
 const BackButton = dynamic(
   () => import("@/components/organisms/back/BackButton")
@@ -25,16 +24,6 @@ const FormOutcome = () => {
   const { isOpen, toggle } = useToggle();
   const { mutateCreatePengeluaran } = usePengeluaran();
   const kategoriOptions = useGetOptionsKategori();
-
-  const fetchOptions = async () => {
-    try {
-      const response = await getKategoriPengeluaran();
-
-      console.log("response:", response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const router = useRouter();
   const form = useForm<PengeluaranPayload>({
@@ -62,10 +51,6 @@ const FormOutcome = () => {
       // });
     },
   });
-
-  useEffect(() => {
-    fetchOptions();
-  }, []);
 
   return (
     <>
