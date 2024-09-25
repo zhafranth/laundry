@@ -5,6 +5,7 @@ import ColumnAbsen from "./components/ColumnAbsen";
 import "dayjs/locale/id";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 dayjs.locale("id");
 
@@ -12,8 +13,7 @@ export const ABSEN_COLUMNS = [
   {
     key: "tanggal",
     label: "Tanggal",
-    render: (data: Absensi) =>
-      dayjs(data.tanggal).format("dddd, DD MMM YYYY HH:mm"),
+    render: (data: Absensi) => dayjs(data.tanggal).format("dddd, DD MMM YYYY"),
   },
   {
     key: "jam_masuk",
@@ -34,6 +34,24 @@ export const ABSEN_COLUMNS = [
     label: "Insentif",
     render: (data: Absensi & { transactions: Transaction[] }) =>
       formatToCurrency(data?.insentif),
+  },
+  {
+    key: "berat",
+    label: "Berat",
+    render: (data: Absensi & { transactions: Transaction[] }) => {
+      const value = data?.berat || 0;
+      const meetTarget = value >= 30;
+      return (
+        <p
+          className={`${
+            meetTarget ? "text-green-500" : "text-red-500"
+          } flex items-center gap-x-2`}
+        >
+          {meetTarget ? <FaArrowUp /> : <FaArrowDown />}
+          {value} Kg
+        </p>
+      );
+    },
   },
   {
     key: "total",

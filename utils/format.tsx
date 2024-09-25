@@ -1,5 +1,6 @@
 import { ITransaction } from "@/actions/actions/transaction/Transaction.interface";
 import dayjs from "dayjs";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 
 const INTL_NUMBER_FORMAT = "id-ID";
 const MAXIMUM_FRACTION_DIGITS = 6;

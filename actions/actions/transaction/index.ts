@@ -11,6 +11,52 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/config/authOptions";
 import dayjs from "dayjs";
 
+const updateAbsensi = async (id: string, berat: number) => {
+  const session = await getServerSession(authOptions);
+  const today = dayjs().startOf("day");
+  const absensi = await prisma.absensi.findFirst({
+    where: {
+      userId: session?.user.id,
+      tanggal: {
+        gte: today.toDate(),
+        lt: today.add(1, "day").toDate(),
+      },
+      jam_keluar: null, // Pastikan jam_keluar belum diisi
+    },
+  });
+  if (absensi) {
+    const service = await prisma.service.findFirst({
+      where: {
+        transaction: {
+          some: {
+            id,
+          },
+        },
+      },
+    });
+
+    await prisma.absensi.update({
+      where: {
+        id: absensi.id,
+      },
+      data: {
+        transactions: {
+          connect: { id }, // Menghubungkan transaksi yang sudah ada
+        },
+        insentif: {
+          increment: (service?.harga || 0) * (berat || 0) * 0.07,
+        },
+        berat: {
+          increment: berat,
+        },
+      },
+      include: {
+        transactions: true, // Untuk memastikan transaksi yang ditambahkan dimuat dalam hasil
+      },
+    });
+  }
+};
+
 export const actionCreateTransaction = async (data: TransactionPayload) => {
   try {
     const { serviceId, customerId, berat } = data;
@@ -53,9 +99,13 @@ export const actionCreateTransaction = async (data: TransactionPayload) => {
         type_point === "setrika" ? point_setrika + 1 : point_setrika,
       harga: point === 11 ? 0 : berat * harga,
     };
-    await prisma.transaction.create({
+
+    const transaction = await prisma.transaction.create({
       data: payload,
     });
+
+    await updateAbsensi(transaction.id, berat);
+
     return {
       status: 200,
       message: "Success create transaction",
@@ -65,64 +115,12 @@ export const actionCreateTransaction = async (data: TransactionPayload) => {
     throw new Error("Failed to create transaction");
   }
 };
+
 export const actionUpdateStatusTransaction = async (
   id: string,
   data: TransactionUpdateStatusPayload
 ) => {
   try {
-    const { status, status_pembayaran } = data;
-    const transaction = await prisma.transaction.findUnique({
-      where: { id },
-    });
-
-    if (
-      (status === "selesai" || status === "diambil") &&
-      !!status_pembayaran &&
-      !transaction?.status_pembayaran
-    ) {
-      const session = await getServerSession(authOptions);
-      const today = dayjs().startOf("day");
-
-      const absensi = await prisma.absensi.findFirst({
-        where: {
-          userId: session?.user.id,
-          tanggal: {
-            gte: today.toDate(),
-            lt: today.add(1, "day").toDate(),
-          },
-          jam_keluar: null, // Pastikan jam_keluar belum diisi
-        },
-      });
-      if (absensi) {
-        const service = await prisma.service.findFirst({
-          where: {
-            transaction: {
-              some: {
-                id,
-              },
-            },
-          },
-        });
-
-        await prisma.absensi.update({
-          where: {
-            id: absensi.id,
-          },
-          data: {
-            transactions: {
-              connect: { id }, // Menghubungkan transaksi yang sudah ada
-            },
-            insentif:
-              (absensi.insentif || 0) +
-              (service?.harga || 0) * (transaction?.berat || 0) * 0.07, // Count Insentif
-          },
-          include: {
-            transactions: true, // Untuk memastikan transaksi yang ditambahkan dimuat dalam hasil
-          },
-        });
-      }
-    }
-
     await prisma.transaction.update({
       where: {
         id,

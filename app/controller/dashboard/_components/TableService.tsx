@@ -171,9 +171,19 @@ const TableService = () => {
           {
             key: "berat",
             label: "Berat",
-            render: ({ berat }: Transaction) => (
-              <p className="text-sm">{berat} Kg</p>
-            ),
+            render: ({ berat = 0 }: Transaction) => {
+              const meetTarget = berat >= 30;
+              return (
+                <p
+                  className={`${
+                    meetTarget ? "text-green-500" : "text-red-500"
+                  } flex items-center gap-x-2`}
+                >
+                  {meetTarget ? <FaArrowUp /> : <FaArrowDown />}
+                  {berat} Kg
+                </p>
+              );
+            },
           },
           {
             key: "action",

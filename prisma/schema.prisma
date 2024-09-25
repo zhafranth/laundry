@@ -42,6 +42,7 @@ model Absensi {
   tanggal     DateTime
   jam_masuk    DateTime
   jam_keluar   DateTime?
+  berat       Int? @default(0)
   status       String?
   insentif    Int @default(0)
   lokasi      String
