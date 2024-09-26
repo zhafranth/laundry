@@ -66,6 +66,9 @@ export const ABSEN_COLUMNS = [
       <Link href={`/controller/profile/${data?.id}`}>
         <Button size="sm" color="primary" variant="flat">
           Detail
+          {data.transactions.some(
+            (item) => item.status_pembayaran === false
+          ) && <div className="w-2 h-2 rounded-full bg-red-500"></div>}
         </Button>
       </Link>
     ),
